@@ -1,3 +1,8 @@
+let mainFilter = "all";
+let ingredientsFilter = [];
+let appliancesFilter = [];
+let ustensilsFilter = [];
+
 async function displayHeader(rootAnchor) {
   const component = componentFactory();
   const container = containerFactory();

@@ -1,3 +1,5 @@
+  const BASE_THUMBNAIL_URL = 'assets/recipesThumb/';
+  
   const constructBrand = () => {
     const brand = document.createElement('div');
     brand.classList.add('brand');
@@ -8,6 +10,12 @@
   const constructSearchbar = () => {
     const searchBar = document.createElement('div');
       searchBar.classList.add('searchbar');
+      searchBar.setAttribute('role', 'search');
+      searchBar.setAttribute('aria-label', 'Rechercher une recette, un ingrédient,...');
+      searchBar.setAttribute('aria-controls', 'recipes');
+      searchBar.setAttribute('aria-autocomplete', 'list');
+      searchBar.setAttribute('data-minlength', '3');
+      searchBar.setAttribute('data-searchValue', '');
     const searchIcon = document.createElement('img');
       searchIcon.setAttribute('src', 'assets/icons/search.svg');
       searchIcon.setAttribute('alt', 'search icon');
@@ -23,7 +31,7 @@
     searchBar.appendChild(searchInput);
     return searchBar;
   };
-  
+
   const constructTitle = () => {
     const title = document.createElement('h1');
     title.innerText = 'CHERCHEZ PARMI PLUS DE 1500 RECETTES DU QUOTIDIEN,SIMPLES ET DÉLICIEUSES'
@@ -99,8 +107,100 @@
   const constructRecipeCard = (recipe) => {
     const recipeCard = document.createElement('article');
       recipeCard.classList.add('recipe__card--container');
-      recipeCard.innerText = recipe.name;
-    return recipeCard;
+    
+    const recipeCardThumbnail = constructRecipeCardThumbnail(recipe);
+      recipeCard.appendChild(recipeCardThumbnail);
+    
+    const recipeCardTime = constructRecipeCardTime(recipe);
+      recipeCard.appendChild(recipeCardTime);
+
+    const recipeCardTitle = constructRecipeCardTitle(recipe);
+      recipeCard.appendChild(recipeCardTitle);
+    
+    const recipeCardContentWrapper = document.createElement('div');
+      recipeCardContentWrapper.classList.add('recipe__card--content-wrapper');
+    
+    
+    const recipeCardContent = constructRecipeCardContent(recipe);
+    const recipeCardContentSubtitle = document.createElement('h4');
+      recipeCardContentSubtitle.classList.add('recipe__card--subtitle');
+      recipeCardContentSubtitle.innerText = 'RECETTE';
+      recipeCardContentWrapper.appendChild(recipeCardContentSubtitle);
+      recipeCardContentWrapper.appendChild(recipeCardContent);
+      recipeCard.appendChild(recipeCardContentWrapper);    
+    const recipeCardIngredientsWrapper = document.createElement('div');
+    recipeCardIngredientsWrapper.classList.add('recipe__card--ingredients-wrapper');
+  
+    const ingredients = recipe.ingredients;
+    const recipeCardIngretientsSubtitle = document.createElement('h4');
+      recipeCardIngretientsSubtitle.classList.add('recipe__card--subtitle');
+      recipeCardIngretientsSubtitle.innerText = 'INGRÉDIENTS';
+    const recipeCardIngredients = document.createElement('div');
+      recipeCardIngredients.classList.add('recipe__card--ingredients');
+    ingredients.forEach(ingredient => {
+      const recipeCardIngredient = constructRecipeCardIngredient(ingredient);
+      recipeCardIngredients.appendChild(recipeCardIngredient);
+    });
+      recipeCardIngredientsWrapper.appendChild(recipeCardIngretientsSubtitle);
+      recipeCardIngredientsWrapper.appendChild(recipeCardIngredients);
+      recipeCard.appendChild(recipeCardIngredientsWrapper);
+    
+     return recipeCard;
+  };
+
+  const constructRecipeCardThumbnail = (recipe) => {
+    const recipeCardThumbnail = document.createElement('img');
+      recipeCardThumbnail.setAttribute('src', `${BASE_THUMBNAIL_URL}${recipe.image}`);
+      recipeCardThumbnail.setAttribute('alt', `Recette ${recipe.name}`);
+      recipeCardThumbnail.classList.add('recipe__card--thumbnail');
+    return recipeCardThumbnail;
+  };
+
+  const constructRecipeCardTitle = (recipe) => {
+    const recipeCardTitle = document.createElement('h3');
+      recipeCardTitle.classList.add('recipe__card--title');
+      recipeCardTitle.innerText = recipe.name;
+    return recipeCardTitle;
+  };
+
+  const constructRecipeCardContent = (recipe) => {
+    const recipeCardContent = document.createElement('div');
+      recipeCardContent.classList.add('recipe__card--content');
+      recipeCardContent.innerText = recipe.description;
+    return recipeCardContent;
+  };
+
+  const constructRecipeCardTime = (recipe) => {
+    const recipeCardTime = document.createElement('aside');
+      recipeCardTime.classList.add('recipe__card--time');
+    const recipeCardTimeIcon = document.createElement('img');
+      recipeCardTimeIcon.setAttribute('src', 'assets/icons/time.svg');
+      recipeCardTimeIcon.setAttribute('alt', 'Durée de la recette');
+      recipeCardTimeIcon.classList.add('recipe__card--time-icon');
+      recipeCardTime.appendChild(recipeCardTimeIcon);
+    const recipeCardTimeText = document.createElement('p');
+      recipeCardTimeText.classList.add('recipe__card--time-text');
+      recipeCardTimeText.innerText = `${recipe.time} min`;
+      recipeCardTime.appendChild(recipeCardTimeText);
+    return recipeCardTime;
+  };
+
+  const constructRecipeCardIngredient = (ingredientData) => {
+    const recipeCardIngredient = document.createElement('div');
+      recipeCardIngredient.classList.add('recipe__card--ingredient');
+    const recipeCardIngredientTitle = document.createElement('h4');
+      recipeCardIngredientTitle.classList.add('recipe__card--ingredient-title');
+      recipeCardIngredientTitle.innerText = ingredientData.ingredient;
+      recipeCardIngredient.appendChild(recipeCardIngredientTitle);
+
+    const recipeCardIngredientQuantity = document.createElement('p');
+      recipeCardIngredientQuantity.classList.add('recipe__card--ingredient-quantity');
+      recipeCardIngredientQuantity.innerText = 
+      ingredientData.quantity === undefined ? '-' :
+      ingredientData.quantity + (ingredientData.unit ? ingredientData.unit : '');
+      recipeCardIngredient.appendChild(recipeCardIngredientQuantity); 
+
+    return recipeCardIngredient;
   };
 
 const componentFactory = () => {  
@@ -114,7 +214,12 @@ const componentFactory = () => {
     constructAdvancedFilterList,
     constructAdvancedFilterHeader,
     constructSearchIcon,
-    constructRecipeCard
+    constructRecipeCard,
+    constructRecipeCardThumbnail,
+    constructRecipeCardTitle,
+    constructRecipeCardContent,
+    constructRecipeCardTime,
+    constructRecipeCardIngredient
   };
 };
 

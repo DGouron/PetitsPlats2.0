@@ -1,7 +1,9 @@
 const { describe, test } = require("node:test");
 const { componentFactory } = require("../scripts/factories/componentFactory");
 
-const recipes = [
+const BASE_THUMBNAIL_URL = 'assets/recipesThumb/';
+
+const EXEMPLE_RECIPES = [
   {
       "id": 1,
       "image": "Recette01.jpg",
@@ -127,9 +129,68 @@ describe('Recipe components', () => {
   });
 
   it('should construct a recipe card component', () => {
-    const recipeCard = factory.constructRecipeCard(recipes[0]);
+    const recipeCard = factory.constructRecipeCard(EXEMPLE_RECIPES[0]);
       expect(recipeCard.tagName).toBe('ARTICLE');
       expect(recipeCard.classList.contains('recipe__card--container')).toBe(true);
+    const recipeCardThumbnail = recipeCard.querySelector('.recipe__card--thumbnail');
+      expect(recipeCardThumbnail).toBeTruthy();
+    const recipeCardTitle = recipeCard.querySelector('.recipe__card--title');  
+      expect(recipeCardTitle).toBeTruthy();
+    const recipeCardDetails = recipeCard.querySelector('.recipe__card--details');
+      expect(recipeCardDetails).toBeTruthy();
+    const recipeCardDetailsTime = recipeCardDetails.querySelector('.recipe__card--time');
+      expect(recipeCardDetailsTime).toBeTruthy();
+  });
+
+  it('should construct a recipe card thumbnail component', () => {
+    const recipeCardThumbnail = factory.constructRecipeCardThumbnail(EXEMPLE_RECIPES[0]);
+      expect(recipeCardThumbnail.tagName).toBe('IMG');
+      expect(recipeCardThumbnail.classList.contains('recipe__card--thumbnail')).toBe(true);
+      expect(recipeCardThumbnail.getAttribute('src')).toBe(`${BASE_THUMBNAIL_URL}${EXEMPLE_RECIPES[0].image}`);
+      expect(recipeCardThumbnail.getAttribute('alt')).toBe(`Recette ${EXEMPLE_RECIPES[0].name}`);
+  });
+
+  it('should construct a recipe card title component', () => {
+    const recipeCardTitle = factory.constructRecipeCardTitle(EXEMPLE_RECIPES[0]);
+      expect(recipeCardTitle.tagName).toBe('H3');
+      expect(recipeCardTitle.classList.contains('recipe__card--title')).toBe(true);
+      expect(recipeCardTitle.innerText).toBe(EXEMPLE_RECIPES[0].name);
+  });
+
+  it('should construct a recipe card content component', () => {
+    const recipeCardDetails = factory.constructRecipeCardContent(EXEMPLE_RECIPES[0]);
+      expect(recipeCardDetails.tagName).toBe('DIV');
+      expect(recipeCardDetails.classList.contains('recipe__card--content')).toBe(true);
+      expect(recipeCardDetails.innerText).toBe(EXEMPLE_RECIPES[0].description);
+  });
+
+  it('should construct a recipe card time encart component', () => {
+    const recipeCardTime = factory.constructRecipeCardTime(EXEMPLE_RECIPES[0]);
+      expect(recipeCardTime.tagName).toBe('ASIDE');
+      expect(recipeCardTime.classList.contains('recipe__card--time')).toBe(true);
+    const recipeCardTimeIcon = recipeCardTime.querySelector('.recipe__card--time-icon');
+      expect(recipeCardTimeIcon).toBeTruthy();
+      expect(recipeCardTimeIcon.tagName).toBe('IMG');
+      expect(recipeCardTimeIcon.getAttribute('src')).toBe('assets/icons/time.svg');
+      expect(recipeCardTimeIcon.getAttribute('alt')).toBe('Durée de la recette');
+    const recipeCardTimeText = recipeCardTime.querySelector('.recipe__card--time-text');
+      expect(recipeCardTimeText).toBeTruthy();
+      expect(recipeCardTimeText.tagName).toBe('P');
+      expect(recipeCardTimeText.innerText).toBe(`${EXEMPLE_RECIPES[0].time}min`);
+  });
+
+  it('should construct a recipe card ingredient component', () => {
+    const recipeCardIngredients = factory.constructRecipeCardIngredient(EXEMPLE_RECIPES[0].ingredients[0]);
+      expect(recipeCardIngredients.tagName).toBe('DIV');
+      expect(recipeCardIngredients.classList.contains('recipe__card--ingredient')).toBe(true);
+    const recipeCardIngredientTitle = recipeCardIngredients.querySelector('.recipe__card--ingredient-title');
+      expect(recipeCardIngredientTitle).toBeTruthy();
+      expect(recipeCardIngredientTitle.tagName).toBe('H4');
+      expect(recipeCardIngredientTitle.innerText).toBe('Sucre');
+    const recipeCardIngredientQuantity = recipeCardIngredients.querySelector('.recipe__card--ingredient-quantity');
+      expect(recipeCardIngredientQuantity).toBeTruthy();
+      expect(recipeCardIngredientQuantity.tagName).toBe('P');
+      expect(recipeCardIngredientQuantity.innerText).toBe('30grammes');
   });
 });
 
