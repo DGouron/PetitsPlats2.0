@@ -1,5 +1,5 @@
   const BASE_THUMBNAIL_URL = 'assets/recipesThumb/';
-  
+
   const constructBrand = () => {
     const brand = document.createElement('div');
     brand.classList.add('brand');
@@ -56,10 +56,16 @@
   const constructAdvancedFilterList = (filters) => {
     const filtersList = document.createElement('ul');
     filtersList.classList.add('filters__advanced--list');
-    filters.forEach(filter => {
+    let filtersToShow = [...filters];
+    filtersToShow = removeDuplicates(filtersToShow);
+    filtersToShow = sortByAlphabeticalOrder(filtersToShow);
+
+    filtersToShow.forEach(filter => {
       const filterItem = document.createElement('li');
       filterItem.classList.add('filters__advanced--option');
       filterItem.innerText = filter;
+      filterItem.setAttribute('data-filtername', filter);
+      filterItem.setAttribute('data-selected', 'false');
       filtersList.appendChild(filterItem);
     });
     return filtersList;
@@ -84,6 +90,7 @@
   const constructAdvancedFilterBlock = (arrayToPickOptions, category) => {
     const  advancedFilters = document.createElement('section');
       advancedFilters.classList.add('filters__advanced--container');
+      advancedFilters.setAttribute('data-filtertype', category);
     if(category !== undefined && category !== null) {
       const advancedFiltersHeader = constructAdvancedFilterHeader(category);
       advancedFilters.appendChild(advancedFiltersHeader);
@@ -192,7 +199,7 @@
       recipeCardIngredientTitle.classList.add('recipe__card--ingredient-title');
       recipeCardIngredientTitle.innerText = ingredientData.ingredient;
       recipeCardIngredient.appendChild(recipeCardIngredientTitle);
-
+;
     const recipeCardIngredientQuantity = document.createElement('p');
       recipeCardIngredientQuantity.classList.add('recipe__card--ingredient-quantity');
       recipeCardIngredientQuantity.innerText = 
@@ -201,6 +208,41 @@
       recipeCardIngredient.appendChild(recipeCardIngredientQuantity); 
 
     return recipeCardIngredient;
+  };
+
+  const constructTagsContainer = (tags) => {
+    const tagContainer = document.createElement('div');
+    tagContainer.classList.add('tags__container');
+      return tagContainer;
+  };
+
+  const constructTags = (tags, container) => {
+    tags.ingredients.forEach(ingredient => {
+      const tag = constructTag(ingredient, 'ingredients');
+      container.appendChild(tag);
+    });
+    tags.appliances.forEach(appliance => {
+      const tag = constructTag(appliance, 'appliances');
+      container.appendChild(tag);
+    });
+    tags.ustensils.forEach(ustensil => {
+      const tag = constructTag(ustensil, 'ustensils');
+      container.appendChild(tag);
+    });
+  };   
+
+  const constructTag = (tagName, type) => {
+    const tag = document.createElement('span');
+    tag.classList.add('tag');
+    tag.innerText = tagName;
+    tag.setAttribute('data-filtertype', type);
+    tag.setAttribute('data-filtername', tagName);
+    const closeIcon = document.createElement('img');
+    closeIcon.setAttribute('src', 'assets/icons/cross.svg');
+    closeIcon.setAttribute('alt', 'Supprimer le filtre');
+    closeIcon.classList.add('tag__close-icon');
+    tag.appendChild(closeIcon);
+    return tag;
   };
 
 const componentFactory = () => {  
@@ -219,7 +261,10 @@ const componentFactory = () => {
     constructRecipeCardTitle,
     constructRecipeCardContent,
     constructRecipeCardTime,
-    constructRecipeCardIngredient
+    constructRecipeCardIngredient,
+    constructTagsContainer,
+    constructTags,
+    constructTag
   };
 };
 

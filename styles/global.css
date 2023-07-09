@@ -85,7 +85,7 @@ h1{
   color: #1B1B1B;
 }
 .filter__section{
-  padding: 0 4%;
+  padding: 0 3%;
 }
 .filter__row{
   display: flex;
@@ -184,6 +184,9 @@ h1{
 .filters__advanced--option:hover, .filters__advanced--option-selected{
   background: #FFD15B;
   cursor: pointer;
+}
+.filters__advanced--option-hidden{
+  display: none;
 }
 .filters__advanced--list--active, .filters__advanced--searchbar--active{
   display: block !important;
@@ -310,4 +313,39 @@ h1{
 .recipe__card--time-icon{
   width: 16px;
   height: 16px;
+}
+.tags__container{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 0 3%;
+}
+.tag{
+  display: inline-flex;
+  padding: 17px 18px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  border-radius: 10px;
+  background: #FFD15B;
+  min-width: 100px;
+  color: #000;
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.tag__close-icon{
+  display: block;
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.tag__close-icon:hover{
+  transform: scale(1.5);
 }

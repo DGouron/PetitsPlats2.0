@@ -1774,3 +1774,9 @@ const recipes = [
         "ustensils":["rouleau à patisserie","fouet"]
     }
 ]
+
+if (typeof module === 'object') {
+    module.exports = {
+        recipes: recipes,
+    };
+  }

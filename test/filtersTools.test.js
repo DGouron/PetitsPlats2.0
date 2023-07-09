@@ -1,5 +1,5 @@
 const { describe, test } = require("node:test");
-const { getFilterOptions } = require("../scripts/helpers/filterTool");
+const { getFilterOptions, removeDuplicates, sortByAlphabeticalOrder } = require("../scripts/helpers/filterTool");
 
 const recipes = [
     {
@@ -56,7 +56,7 @@ describe('Filters tool testing', () => {
   });
 
   it('should return a list of appliances', () => {
-    const appliances = getFilterOptions(recipes, 'appliance');
+    const appliances = getFilterOptions(recipes, 'appliances');
     expect(appliances).toEqual([
       'Blender',
       'Saladier',
@@ -70,5 +70,40 @@ describe('Filters tool testing', () => {
       'verres',
       'presse citron',
     ]);
+  });
+
+  it('should remove duplicates', () => {
+    const filterListWithDuplicates = [
+      'Sucre',
+      'Glaçons',
+      'tomate',
+      'Carotte',
+      'tomate'
+    ];
+    const filterListWithoutDuplicates = [
+      'Sucre',
+      'Glaçons',
+      'Tomate',
+      'Carotte',
+    ];
+    const ingredients = removeDuplicates(filterListWithDuplicates);
+    expect(ingredients).toEqual(filterListWithoutDuplicates);
+  });
+
+  it('should sort by alphabetical order', () => {
+    const filtersToSort = [
+      'Sucre',
+      'Glaçons',
+      'Carotte',
+      'Tomate'
+    ];
+    const filterSortByOrder = [
+      'Carotte',
+      'Glaçons',
+      'Sucre',
+      'Tomate',
+    ];
+    const ingredients = sortByAlphabeticalOrder(filtersToSort);
+    expect(ingredients).toEqual(filterSortByOrder);
   });
 });

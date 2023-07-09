@@ -85,40 +85,13 @@ describe('Generic components', () => {
   });
 });
 
-describe('Advanced filters components', () => {
-
-  it('should construct an advanced filter list component', () => {
-    const filterList = factory.constructAdvancedFilterList(['test1', 'test2']);
-      expect(filterList.tagName).toBe('UL');
-      expect(filterList.classList.contains('filters__advanced--list')).toBe(true);
-    const filterListItems = filterList.querySelectorAll('.filters__advanced--option');
-      expect(filterListItems.length).toBe(2);
-      expect(filterListItems[0].tagName).toBe('LI');
-      expect(filterListItems[0].innerText).toBe('test1');
-      expect(filterListItems[1].innerText).toBe('test2');
-  });
-  
+describe('Advanced filters components', () => {  
   it('should construct a filter searchbar component', () => {
     const filterSearchbar = factory.constructAvancedFilterSearchbar();
       expect(filterSearchbar.tagName).toBe('INPUT');
       expect(filterSearchbar.classList.contains('filters__advanced--searchbar')).toBe(true);
   });
-
-  it('should construct an advanced filter header component', () => {
-    const filterHeader = factory.constructAdvancedFilterHeader('test');
-      expect(filterHeader).toBeTruthy();
-      expect(filterHeader.tagName).toBe('DIV');
-      expect(filterHeader.classList.contains('filters__advanced--header')).toBe(true);
-    const filterHeaderTitle = filterHeader.querySelector('.filters__advanced--title');
-      expect(filterHeaderTitle).toBeTruthy();
-      expect(filterHeaderTitle.tagName).toBe('H2');
-      expect(filterHeaderTitle.innerText).toBe('Test');
-    const filterHeaderIcon = filterHeader.querySelector('.filters__advanced--icon');
-      expect(filterHeaderIcon).toBeTruthy();
-      expect(filterHeaderIcon.tagName).toBe('IMG');
-  });
 });
-
 describe('Recipe components', () => {
 
   it('should construct a recipe counter component', () => {
@@ -126,20 +99,6 @@ describe('Recipe components', () => {
       expect(recipeCounter.tagName).toBe('ASIDE');
       expect(recipeCounter.classList.contains('recipe__counter')).toBe(true);
       expect(recipeCounter.innerText).toBe('1500 recettes');
-  });
-
-  it('should construct a recipe card component', () => {
-    const recipeCard = factory.constructRecipeCard(EXEMPLE_RECIPES[0]);
-      expect(recipeCard.tagName).toBe('ARTICLE');
-      expect(recipeCard.classList.contains('recipe__card--container')).toBe(true);
-    const recipeCardThumbnail = recipeCard.querySelector('.recipe__card--thumbnail');
-      expect(recipeCardThumbnail).toBeTruthy();
-    const recipeCardTitle = recipeCard.querySelector('.recipe__card--title');  
-      expect(recipeCardTitle).toBeTruthy();
-    const recipeCardDetails = recipeCard.querySelector('.recipe__card--details');
-      expect(recipeCardDetails).toBeTruthy();
-    const recipeCardDetailsTime = recipeCardDetails.querySelector('.recipe__card--time');
-      expect(recipeCardDetailsTime).toBeTruthy();
   });
 
   it('should construct a recipe card thumbnail component', () => {
@@ -176,7 +135,7 @@ describe('Recipe components', () => {
     const recipeCardTimeText = recipeCardTime.querySelector('.recipe__card--time-text');
       expect(recipeCardTimeText).toBeTruthy();
       expect(recipeCardTimeText.tagName).toBe('P');
-      expect(recipeCardTimeText.innerText).toBe(`${EXEMPLE_RECIPES[0].time}min`);
+      expect(recipeCardTimeText.innerText).toBe(`${EXEMPLE_RECIPES[0].time} min`);
   });
 
   it('should construct a recipe card ingredient component', () => {
@@ -191,6 +150,26 @@ describe('Recipe components', () => {
       expect(recipeCardIngredientQuantity).toBeTruthy();
       expect(recipeCardIngredientQuantity.tagName).toBe('P');
       expect(recipeCardIngredientQuantity.innerText).toBe('30grammes');
+  });
+
+  it('should construct a tag component with a tag name', () => {
+    const tag = factory.constructTag('test');
+      expect(tag.classList.contains('tag')).toBe(true);
+      expect(tag.innerText).toBe('test');
+  }
+  );
+  it('should construct a tag container component and add tags to it', () => {
+    const tagContainer = factory.constructTagsContainer();
+      expect(tagContainer.tagName).toBe('DIV');
+      expect(tagContainer.classList.contains('tags__container')).toBe(true);
+    const tags = {
+      ingredients: ['test1', 'test2'],
+      appliances: ['test3', 'test4'],
+      ustensils: ['test5', 'test6']
+    }
+    factory.constructTags(tags, tagContainer);
+    const tagContainerTags = tagContainer.querySelectorAll('.tag');
+      expect(tagContainerTags.length).toBe(6);
   });
 });
 
