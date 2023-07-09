@@ -145,7 +145,7 @@ function bindSearchbarEvents() {
       const searchByTitleResult = searchByTitle(mainFilter, recipes);
       const searchByIngredientResult = searchByIngredient(mainFilter, recipes);
       const searchByDescriptionResult = searchByDescription(mainFilter, recipes);
-      let recipesFound = agregateSearchResults([searchByTitleResult, searchByIngredientResult, searchByDescriptionResult]);
+      let recipesFound = aggregateSearchResults([searchByTitleResult, searchByIngredientResult, searchByDescriptionResult]);
       recipesWithMainFilter = recipesFound ? recipesFound : [];
       recipesFound = applyFilters(recipesWithMainFilter, filters);
 

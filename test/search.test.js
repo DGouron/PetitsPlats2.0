@@ -1,4 +1,4 @@
-const { checkSearchValidity, searchByTitle, searchByIngredient, searchByDescription, agregateSearchResults } = require('../scripts/helpers/search');
+const { checkSearchValidity, searchByTitle, searchByIngredient, searchByDescription, aggregateSearchResults } = require('../scripts/helpers/search');
 const { recipes } = require('../scripts/data/recipes');
 
 describe('Test all search functions', () => {
@@ -38,10 +38,10 @@ describe('Test all search functions', () => {
     console.log(result.length);
     const result2 = searchByIngredient(title, recipes);
     console.log(result2.length);
-    const agregatedResult = agregateSearchResults([result, result2]);
+    const agregatedResult = aggregateSearchResults([result, result2]);
     expect(agregatedResult.length).toEqual(10);
     const result3 = searchByTitle(title, recipes);
-    const agregatedResult2 = agregateSearchResults([result, result2, result3]);
+    const agregatedResult2 = aggregateSearchResults([result, result2, result3]);
     expect(agregatedResult2.length).toEqual(10);
   }
   );
