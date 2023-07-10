@@ -1,76 +1,64 @@
+// Benchmark : https://jsben.ch/Vnal5
+
 function checkSearchValidity(search) {
   return search.length > 3;
 }
 
 function searchByTitle(search, recipes) {
-  let result = [];
-  let i = 0;
-  while (i < recipes.length) {
-    let recipe = recipes[i];
-    if (recipe.name.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+  const result = [];
+  for (let i = 0; i < recipes.length; i++) {
+    const recipe = recipes[i];
+    if (recipe.name.toLowerCase().includes(search.toLowerCase())) {
       result.push(recipe);
     }
-    i++;
   }
   return result;
 }
 
 function searchByIngredient(search, recipes) {
-  let lowerSearch = search.toLowerCase();
-  let result = [];
-  let i = 0;
-  while (i < recipes.length) {
-    let recipe = recipes[i];
-    let j = 0;
-    while (j < recipe.ingredients.length) {
-      let ingredient = recipe.ingredients[j];
-      if (ingredient.ingredient.toLowerCase().indexOf(lowerSearch) !== -1) {
+  const lowerSearch = search.toLowerCase();
+  const result = [];
+  for (let i = 0; i < recipes.length; i++) {
+    const recipe = recipes[i];
+    for (let j = 0; j < recipe.ingredients.length; j++) {
+      const ingredient = recipe.ingredients[j];
+      if (ingredient.ingredient.toLowerCase().includes(lowerSearch)) {
         result.push(recipe);
         break;
       }
-      j++;
     }
-    i++;
   }
   return result;
 }
 
 function searchByDescription(search, recipes) {
-  let result = [];
-  let i = 0;
-  while (i < recipes.length) {
-    let recipe = recipes[i];
-    if (recipe.description.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+  const result = [];
+  for (let i = 0; i < recipes.length; i++) {
+    const recipe = recipes[i];
+    if (recipe.description.toLowerCase().includes(search.toLowerCase())) {
       result.push(recipe);
     }
-    i++;
   }
   return result;
 }
 
 function aggregateSearchResults(resultsArray) {
-  let aggregatedResult = [];
-  let i = 0;
-  while (i < resultsArray.length) {
-    let result = resultsArray[i];
-    let j = 0;
-    while (j < result.length) {
-      let recipe = result[j];
+  const aggregatedResult = [];
+  for (let i = 0; i < resultsArray.length; i++) {
+    const result = resultsArray[i];
+    for (let j = 0; j < result.length; j++) {
+      const recipe = result[j];
       let found = false;
-      let k = 0;
-      while (k < aggregatedResult.length) {
+      for (let k = 0; k < aggregatedResult.length; k++) {
         if (aggregatedResult[k] === recipe) {
           found = true;
           break;
         }
-        k++;
       }
       if (!found) {
         aggregatedResult.push(recipe);
       }
-      j++;
     }
-    i++;
   }
   return aggregatedResult;
 }
@@ -84,3 +72,5 @@ if (typeof module === 'object') {
     aggregateSearchResults
   };
 }
+
+
