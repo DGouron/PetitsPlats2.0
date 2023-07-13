@@ -1,5 +1,5 @@
 const checkSearchValidity = (search) => {
-  return search.length > 3;
+  return search.length >= 3;
 };
 
 const searchByTitle = (search, recipes) => {
